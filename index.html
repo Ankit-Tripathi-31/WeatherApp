@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f7fb" />
+    <meta name="description" content="A clear, global weather forecast for wherever you are." />
+    <title>Daylight — Weather around the world</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="brand" href="#" aria-label="Daylight home">
+          <span class="brand-mark" aria-hidden="true">☼</span>
+          <span>daylight<span class="brand-period">.</span></span>
+        </a>
+
+        <div class="sidebar-label">YOUR PLACES</div>
+        <div class="saved-list" id="saved-list" aria-label="Saved places"></div>
+        <button class="add-place-button" id="add-place-button" type="button">
+          <span aria-hidden="true">＋</span> Add a place
+        </button>
+
+        <div class="sidebar-note">
+          <span class="note-icon" aria-hidden="true">✦</span>
+          <p>Weather, wherever life takes you.</p>
+        </div>
+        <div class="sidebar-footer">WEATHER FOR THE WORLD</div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="page-heading">
+            <span class="eyebrow">YOUR DAILY FORECAST</span>
+            <h1>Good weather starts here<span class="heading-dot">.</span></h1>
+          </div>
+          <div class="topbar-actions">
+            <form class="search-form" id="search-form" role="search">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input id="city-search" type="search" placeholder="Search any city..." autocomplete="off" aria-label="Search any city" />
+              <button class="search-submit" type="submit" aria-label="Search">↵</button>
+              <div class="search-suggestions" id="search-suggestions" role="listbox" hidden></div>
+            </form>
+            <button class="icon-button location-button" id="location-button" type="button" aria-label="Use my current location" title="Use my current location">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.75v2.1m0 14.3v2.1m9.25-9.25h-2.1m-14.3 0h-2.1M12 7.25a4.75 4.75 0 1 0 0 9.5 4.75 4.75 0 0 0 0-9.5Z"/><circle cx="12" cy="12" r="9.25"/></svg>
+            </button>
+            <button class="unit-toggle" id="unit-toggle" type="button" aria-label="Switch temperature units">°C <span>/</span> °F</button>
+          </div>
+        </header>
+
+        <div class="notice" id="notice" role="status" hidden></div>
+        <div class="loading-state" id="loading-state">
+          <span class="loader" aria-hidden="true"></span>
+          <span>Finding your forecast...</span>
+        </div>
+
+        <div id="weather-content" hidden>
+          <section class="hero-card" aria-label="Current weather">
+            <div class="hero-copy">
+              <div class="location-line">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10.1c0 5-7 11-7 11s-7-6-7-11a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.3"/></svg>
+                <span id="current-location"></span>
+                <span class="location-separator">·</span>
+                <span id="current-date"></span>
+              </div>
+              <div class="temperature-row">
+                <span class="current-temperature" id="current-temperature">--°</span>
+                <div class="condition-copy">
+                  <span class="weather-condition" id="weather-condition">Loading...</span>
+                  <span class="feels-like" id="feels-like"></span>
+                </div>
+              </div>
+              <p class="hero-summary" id="hero-summary"></p>
+              <button class="favorite-button" id="favorite-button" type="button">
+                <span aria-hidden="true">☆</span> <span id="favorite-label">Save this place</span>
+              </button>
+            </div>
+            <div class="hero-art" id="hero-art" aria-hidden="true">
+              <div class="sun-halo"></div>
+              <div class="sun-disc"></div>
+              <div class="cloud cloud-back"></div>
+              <div class="cloud cloud-front"></div>
+              <div class="art-sparkle sparkle-one">✦</div>
+              <div class="art-sparkle sparkle-two">✦</div>
+            </div>
+            <div class="hero-bottom">
+              <div class="hero-stat"><span class="stat-icon">↗</span><span id="hero-wind">--</span><small>WIND</small></div>
+              <div class="hero-stat"><span class="stat-icon">◉</span><span id="hero-humidity">--</span><small>HUMIDITY</small></div>
+              <div class="hero-stat"><span class="stat-icon">☂</span><span id="hero-rain">--</span><small>CHANCE OF RAIN</small></div>
+            </div>
+          </section>
+
+          <section class="forecast-section" id="hourly-section">
+            <div class="section-heading">
+              <div>
+                <span class="eyebrow">PLAN YOUR DAY</span>
+                <h2>Today at a glance</h2>
+              </div>
+              <span class="section-caption">Next 24 hours</span>
+            </div>
+            <div class="hourly-card" id="hourly-forecast" aria-label="Hourly forecast"></div>
+          </section>
+
+          <section class="forecast-section bottom-grid">
+            <div class="week-panel" id="week-section">
+              <div class="section-heading">
+                <div>
+                  <span class="eyebrow">A LITTLE LOOK AHEAD</span>
+                  <h2>7-day forecast</h2>
+                </div>
+              </div>
+              <div class="daily-list" id="daily-forecast" aria-label="Seven-day forecast"></div>
+            </div>
+            <div class="details-panel">
+              <div class="section-heading">
+                <div>
+                  <span class="eyebrow">THE LITTLE DETAILS</span>
+                  <h2>Today's details</h2>
+                </div>
+              </div>
+              <div class="details-grid" id="weather-details"></div>
+            </div>
+          </section>
+          <footer class="app-footer">Forecast data by <a href="https://open-meteo.com/" target="_blank" rel="noreferrer">Open-Meteo</a> <span>·</span> Made for wherever you are.</footer>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>
