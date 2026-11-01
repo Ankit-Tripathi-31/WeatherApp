@@ -6,6 +6,10 @@ A responsive and interactive weather application that provides real-time weather
 
 **[View WeatherApp Live](https://ankit-tripathi-31.github.io/WeatherApp/)**
 
+## 📸 Application Preview
+
+![WeatherApp Preview](screenshots/weatherapp-preview.png)
+
 ## 📌 About the Project
 
 WeatherApp is a web-based application designed to help users explore current weather conditions and forecasts through a clean and user-friendly interface.
